@@ -53,7 +53,7 @@ var samplesJsonPath = 'https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-
 
 // Load data from samples.json
 d3.json(samplesJsonPath).then(function(data) {
-    var testSubjectIds = data.metadata;
+    var testSubjectIds = data.name;
 
     // Populate the dropdown with Test Subject IDs
     var dropdown = d3.select("#selDataset");
