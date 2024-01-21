@@ -53,8 +53,6 @@ var samplesJsonPath = 'https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-
 
 // Load data from samples.json
 d3.json(samplesJsonPath).then(function(data) {
-    console.log(data);
-
     var testSubjectIds = data.names;
 
     // Populate the dropdown with Test Subject IDs
@@ -66,23 +64,12 @@ d3.json(samplesJsonPath).then(function(data) {
         .attr("value", d => d)
         .text(d => d);
 
-// Function to handle option change
-window.optionChanged = function(selectedValue) {
-        // Update demographic information based on the selected Test Subject ID
-        var selectedData = data.samples.find(sample => sample.id === selectedValue);
+    // Function to handle option change
+    window.optionChanged = function(selectedValue) {
+        var selectedSample = data.samples.find(sample => sample.id === selectedValue);
 
-        // Display demographic information in the panel body
-        var panelBody = d3.select("#sample-metadata");
-        panelBody.html(""); // Clear existing content
-
-        // Append demographic information as paragraphs
-        Object.entries(selectedData).forEach(([key, value]) => {
-            panelBody.append("p").text(`${key}: ${value}`);
-        });
-    };
-
-    // Take the top 10 OTUs
-    var top10Otus = selectedSample.otu_ids.slice(0, 10);
+        // Take the top 10 OTUs
+        var top10Otus = selectedSample.otu_ids.slice(0, 10);
         var top10Values = selectedSample.sample_values.slice(0, 10);
         var top10Labels = selectedSample.otu_labels.slice(0, 10);
 
@@ -126,6 +113,7 @@ window.optionChanged = function(selectedValue) {
     console.error("Error loading samples.json:", error);
 });
 </script>
+
 
 </body>
 
