@@ -7,9 +7,17 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Bellybutton Biodiversity</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 
-<body>
+<script>
+d3.json("https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json").then(function(data) {
+    console.log(data);
+}).catch(function(error) {
+    console.error("Error loading JSON data:", error);
+<script>
+
+  <body>
 
   <div class="container">
     <div class="row">
