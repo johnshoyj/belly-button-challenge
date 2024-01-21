@@ -81,6 +81,45 @@ window.optionChanged = function(selectedValue) {
         });
     };
 
+    // Take the top 10 OTUs
+    var top10Otus = selectedSample.otu_ids.slice(0, 10);
+        var top10Values = selectedSample.sample_values.slice(0, 10);
+        var top10Labels = selectedSample.otu_labels.slice(0, 10);
+
+        // Clear existing chart content
+        d3.select("#bar-chart").html("");
+
+        // Create a horizontal bar chart
+        var chart = d3.select("#bar-chart")
+            .attr("width", "100%")
+            .attr("height", 300);
+
+        var barHeight = 30;
+
+        chart.selectAll("rect")
+            .data(top10Values)
+            .enter()
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", (d, i) => i * barHeight)
+            .attr("width", d => d)
+            .attr("height", barHeight)
+            .attr("fill", "steelblue")
+            .append("title")
+            .text((d, i) => `${top10Labels[i]}: ${d}`);
+
+        // Add labels
+        chart.selectAll("text")
+            .data(top10Values)
+            .enter()
+            .append("text")
+            .attr("x", d => d + 5)
+            .attr("y", (d, i) => i * barHeight + barHeight / 2)
+            .attr("dy", "0.35em")
+            .text((d, i) => `OTU ${top10Otus[i]}`)
+            .attr("fill", "white");
+    };
+
     // Trigger initial option change (assuming the first option is selected by default)
     optionChanged(testSubjectIds[0]);
 }).catch(function(error) {
