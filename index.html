@@ -11,10 +11,14 @@
 </head>
 
 <script>
-d3.json("https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json").then(function(data) {
+var samplesJsonPath = 'https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json';
+d3.json(samplesJsonPath).then(function(data) {
     console.log(data);
 }).catch(function(error) {
     console.error("Error loading JSON data:", error);
+
+
+    
 <script>
 
   <body>
