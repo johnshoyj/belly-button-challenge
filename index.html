@@ -7,16 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Bellybutton Biodiversity</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
-
-<script>
-var samplesJsonPath = 'https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json';
-d3.json(samplesJsonPath).then(function(data) {
-    console.log(data);
-}).catch(function(error) {
-    console.error("Error loading JSON data:", error);
-
 <body>
 
   <div class="container">
@@ -52,6 +43,47 @@ d3.json(samplesJsonPath).then(function(data) {
       </div>
     </div>
   </div>
+
+<script>
+  
+var samplesJsonPath = 'https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json';
+
+// Load data from samples.json
+d3.json(samplesJsonPath).then(function(data) {
+    console.log(data);
+
+    var testSubjectIds = data.names;
+
+    // Populate the dropdown with Test Subject IDs
+    var dropdown = d3.select("#selDataset");
+    dropdown.selectAll("option")
+        .data(testSubjectIds)
+        .enter()
+        .append("option")
+        .attr("value", d => d)
+        .text(d => d);
+
+// Function to handle option change
+window.optionChanged = function(selectedValue) {
+        // Update demographic information based on the selected Test Subject ID
+        var selectedData = data.samples.find(sample => sample.id === selectedValue);
+
+        // Display demographic information in the panel body
+        var panelBody = d3.select("#sample-metadata");
+        panelBody.html(""); // Clear existing content
+
+        // Append demographic information as paragraphs
+        Object.entries(selectedData).forEach(([key, value]) => {
+            panelBody.append("p").text(`${key}: ${value}`);
+        });
+    };
+
+    // Trigger initial option change (assuming the first option is selected by default)
+    optionChanged(testSubjectIds[0]);
+}).catch(function(error) {
+    console.error("Error loading samples.json:", error);
+});
+</script>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
