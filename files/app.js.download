@@ -46,7 +46,7 @@ text: hoverTextBar,
 }];
 
 const barLayout = {
-title: `Top 10 OTUs for Subject ID ${subjectID}`,
+title: `Top 10 OTUs Per Sample`,
 xaxis: { title: 'Sample Values' },
 yaxis: { title: 'OTU ID' },
 };
@@ -68,7 +68,7 @@ text: data.samples[index].otu_labels,
 }];
 
 const bubbleLayout = {
-title: `Bubble Chart for Subject ID ${subjectID}`,
+title: `Bubble Chart of Bacteria Per Sample`,
 xaxis: { title: 'OTU ID' },
 yaxis: { title: 'Sample Values' },
 showlegend: false,
@@ -112,7 +112,7 @@ let gaugeData = [
 {
 domain: { x: [0, 1], y: [0, 1] },
 value: 0, 
-title: { text: "Weekly Washing Frequency" },
+title: { text: "Weekly Belly Button Wash Count" },
 type: "indicator",
 mode: "gauge",
 gauge: {
