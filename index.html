@@ -53,7 +53,7 @@ var samplesJsonPath = 'https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-
 
 // Load data from samples.json
 d3.json(samplesJsonPath).then(function(data) {
-  var samples = data.samples;
+  var samples = data.names;
 
   // Get the first sample for demonstration (you can loop through all samples)
   var sample = samples[0];
