@@ -53,78 +53,33 @@ var samplesJsonPath = 'https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-
 
 // Load data from samples.json
 d3.json(samplesJsonPath).then(function(data) {
-    var testSubjectIds = data.names;
+  var samples = data.samples;
 
-    // Populate the dropdown with Test Subject IDs
-    var dropdown = d3.select("#selDataset");
-    dropdown.selectAll("option")
-        .data(testSubjectIds)
-        .enter()
-        .append("option")
-        .attr("value", d => d)
-        .text(d => d);
+  // Get the first sample for demonstration (you can loop through all samples)
+  var sample = samples[0];
 
-    // Function to handle option change
-    window.optionChanged = function(selectedValue) {
-        // Update demographic information based on the selected Test Subject ID
-        var selectedData = data.samples.find(sample => sample.id === selectedValue);
+  // Extract the top 10 OTUs
+  var top10SampleValues = sample.sample_values.slice(0, 10);
+  var top10OtuIds = sample.otu_ids.slice(0, 10);
+  var top10OtuLabels = sample.otu_labels.slice(0, 10);
 
-        // Display demographic information in the panel body
-        var panelBody = d3.select("#sample-metadata");
-        panelBody.html(""); // Clear existing content
+  // Create a horizontal bar chart
+  var trace = {
+    x: top10SampleValues,
+    y: top10OtuIds.map(id => `OTU ${id}`),
+    text: top10OtuLabels,
+    type: 'bar',
+    orientation: 'h'
+  };
 
-        // Append demographic information as paragraphs
-        Object.entries(selectedData).forEach(([key, value]) => {
-            panelBody.append("p").text(`${key}: ${value}`);
-        });
-    };
+  var layout = {
+    title: 'Top 10 OTUs',
+    xaxis: { title: 'Sample Values' },
+    yaxis: { title: 'OTU IDs' }
+  };
 
-    // Trigger initial option change (assuming the first option is selected by default)
-    optionChanged(testSubjectIds[0]);
-}).catch(function(error) {
-    console.error("Error loading samples.json:", error);
-});
-
-        // Take the top 10 OTUs
-        var top10Otus = selectedSample.otu_ids.slice(0, 10);
-        var top10Values = selectedSample.sample_values.slice(0, 10);
-        var top10Labels = selectedSample.otu_labels.slice(0, 10);
-
-        // Clear existing chart content
-        d3.select("#bar-chart").html("");
-
-        // Create a horizontal bar chart
-        var chart = d3.select("#bar-chart")
-            .attr("width", "100%")
-            .attr("height", 300);
-
-        var barHeight = 30;
-
-        chart.selectAll("rect")
-            .data(top10Values)
-            .enter()
-            .append("rect")
-            .attr("x", 0)
-            .attr("y", (d, i) => i * barHeight)
-            .attr("width", d => d)
-            .attr("height", barHeight)
-            .attr("fill", "steelblue")
-            .append("title")
-            .text((d, i) => `${top10Labels[i]}: ${d}`);
-
-        // Add labels
-        chart.selectAll("text")
-            .data(top10Values)
-            .enter()
-            .append("text")
-            .attr("x", d => d + 5)
-            .attr("y", (d, i) => i * barHeight + barHeight / 2)
-            .attr("dy", "0.35em")
-            .text((d, i) => `OTU ${top10Otus[i]}`)
-            .attr("fill", "white");
-    
-</script>
-
+  Plotly.newPlot('your-chart-div-id', [trace], layout);
+  });
 
 </body>
 
